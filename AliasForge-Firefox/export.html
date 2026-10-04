@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AliasForge CSV export</title>
+    <link rel="stylesheet" href="export.css">
+    <script type="module" src="export.js"></script>
+</head>
+<body>
+    <main>
+        <header><img src="images/icon-64.png" width="40" height="40" alt=""><h1>AliasForge</h1></header>
+        <h2>Export addresses</h2>
+        <p id="export-status" role="status">Preparing your KeePassXC CSV file…</p>
+        <a id="download-csv" class="button" hidden>Download CSV</a>
+        <p>Keep this tab open until the download finishes. Your addresses stay on this device.</p>
+        <details id="export-fallback" hidden>
+            <summary>Alternative: copy CSV</summary>
+            <p>If Safari does not download the file, copy this text and save it as a UTF-8 file named AliasForge-KeePassXC.csv.</p>
+            <label for="csv-content">KeePassXC CSV content</label>
+            <textarea id="csv-content" readonly spellcheck="false" rows="12"></textarea>
+            <button id="copy-csv" class="button" type="button">Copy CSV</button>
+            <p id="copy-status" role="status"></p>
+        </details>
+    </main>
+</body>
+</html>

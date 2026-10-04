@@ -1,0 +1,64 @@
+{
+    "manifest_version": 3,
+    "default_locale": "en",
+    "name": "__MSG_extension_name__",
+    "description": "__MSG_extension_description__",
+    "version": "1.12",
+    "icons": {
+        "48": "images/icon-48.png",
+        "96": "images/icon-96.png",
+        "128": "images/icon-128.png",
+        "256": "images/icon-256.png",
+        "512": "images/icon-512.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "aliasforge@hockulus.de",
+            "strict_min_version": "140.0",
+            "data_collection_permissions": {
+                "required": ["none"]
+            }
+        },
+        "gecko_android": {
+            "strict_min_version": "142.0"
+        }
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "content.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["Outfit-VariableFont_wght.ttf", "images/icon-64.png"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "images/icon-32.png",
+        "default_title": "AliasForge"
+    },
+    "permissions": [
+        "activeTab",
+        "clipboardWrite",
+        "contextMenus",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ]
+}

@@ -1,0 +1,151 @@
+/* Outfit is bundled with the extension so the interface has the same look offline. */
+@font-face {
+    font-family: "Outfit";
+    src: url("Outfit-VariableFont_wght.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+:root {
+    color-scheme: dark;
+    --background: #11151c;
+    --surface: #181e28;
+    --surface-hover: #232d3b;
+    --border: #2b3544;
+    --text: #edf2fa;
+    --muted: #97a5ba;
+    --brand: #55a8ff;
+    --brand-strong: #8cc7ff;
+    --danger: #ff9eaa;
+    font: 13px/1.45 "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+/* Include code, form controls and pseudo-elements in the interface typography. */
+* { box-sizing: border-box; font-family: "Outfit", sans-serif; }
+*::before, *::after, *::placeholder { font-family: inherit; }
+/* The shell never scrolls. Flex children shrink into their own scroll areas. */
+html, body { width: 420px; min-width: 420px; height: 580px; min-height: 580px; margin: 0; overflow: hidden; }
+html { display: block; }
+body { display: block; }
+body { background: radial-gradient(ellipse at 90% 0, #1c2b402e, transparent 65%), var(--background); }
+[hidden] { display: none !important; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; color: inherit; }
+button, .upload-button { transition: background .12s ease, border-color .12s ease; }
+button:disabled { cursor: default; opacity: .4; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible, .upload-button:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+button:hover:not(:disabled), .upload-button:hover { background: var(--surface-hover); }
+h1, h2, p { margin: 0; }
+.popup-shell { display: flex; flex-direction: column; width: 420px; min-width: 420px; height: 580px; min-height: 580px; padding: 16px 18px 0; gap: 14px; }
+.app-header, .brand, .site-line, .copy-row, .address-footer, .view-heading, .history-footer, .entry-top, .entry-bottom { display: flex; align-items: center; }
+.app-header, .address-footer, .view-heading, .history-footer, .entry-top, .entry-bottom { justify-content: space-between; gap: 10px; }
+.app-header { flex: 0 0 30px; }
+.brand { gap: 9px; }
+.header-actions { display: flex; align-items: center; gap: 4px; }
+.github-link { text-decoration: none; }
+.github-link:hover { background: var(--surface-hover); }
+/* Center the original logo independently of button padding and SVG theme rules. */
+.icon-button.github-link { padding: 0; }
+.github-link img { display: block; width: 18px; height: 18px; object-fit: contain; }
+.brand-icon { display: block; width: 28px; height: 28px; object-fit: contain; }
+h1 { font-size: 15px; font-weight: 650; letter-spacing: -.3px; }
+h1 span { color: var(--muted); font-weight: 450; }
+h2 { font-size: 15px; font-weight: 600; }
+.icon-button { flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; padding: 7px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted); }
+.icon-button[aria-expanded="true"] { color: var(--brand-strong); background: var(--surface-hover); }
+svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.address-card { flex: 0 0 auto; padding: 13px; border: 1px solid #354256; border-radius: 12px; background: linear-gradient(115deg, #202d40, #1a222e); }
+.site-line { gap: 7px; color: var(--muted); font-size: 12px; }
+#current-site-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.site-dot { flex: 0 0 5px; height: 5px; border-radius: 50%; background: var(--brand); }
+.copy-row { gap: 6px; margin: 10px 0; }
+#current-email { width: 100%; min-width: 0; padding: 4px 0; border: 0; background: transparent; font: 14px/1.6 "Outfit", sans-serif; letter-spacing: -.3px; color: var(--text); text-overflow: ellipsis; }
+#current-email::placeholder { color: var(--muted); font: 14px "Outfit", "Avenir Next", "Segoe UI", sans-serif; }
+.address-footer { font-size: 11px; color: var(--muted); }
+#address-hint { max-width: 155px; }
+.primary-button, .secondary-button, .text-button, .danger-button, .upload-button { border: 0; border-radius: 7px; padding: 7px 10px; font-size: 12px; font-weight: 550; white-space: nowrap; }
+.primary-button { background: var(--brand); color: #0d1927; }
+.primary-button:hover:not(:disabled) { background: #85c0ff; }
+.secondary-button { border: 1px solid var(--border); background: var(--surface); }
+.text-button, .upload-button { background: transparent; color: var(--muted); }
+.danger-button { color: var(--danger); background: transparent; }
+.status-message { flex: 0 0 auto; font-size: 12px; padding: 8px 10px; border-radius: 7px; background: var(--surface); overflow-wrap: anywhere; max-height: 72px; overflow-y: auto; }
+.view { display: flex; flex: 1; min-height: 0; flex-direction: column; }
+.tab-bar { display: flex; gap: 16px; flex: 0 0 auto; border-bottom: 1px solid var(--border); }
+.tab-button { position: relative; border: 0; padding: 0 0 11px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 550; white-space: nowrap; }
+.tab-button:hover:not(:disabled) { color: var(--text); background: transparent; }
+.tab-button.is-active { color: var(--text); }
+.tab-button.is-active::after { content: ""; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--brand); }
+.count { margin-left: 4px; padding: 1px 5px; border-radius: 4px; font: 10px/1.4 "Outfit", sans-serif; color: var(--muted); background: var(--surface); }
+.tab-panel { display: none; flex: 1; min-height: 0; flex-direction: column; }
+.tab-panel.is-active { display: flex; }
+.scroll-area { min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #445267 transparent; }
+.section-hint { flex: 0 0 auto; font-size: 11px; color: var(--muted); padding: 12px 0 6px; }
+.history-list { flex: 1; padding: 0 4px 10px 0; }
+.history-entry { padding: 12px 0; border-bottom: 1px solid #293240; }
+.entry-site { min-width: 0; color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.entry-badge { flex: 0 0 auto; color: var(--brand-strong); background: #253b50; padding: 1px 6px; border-radius: 4px; font-size: 10px; }
+.entry-email { display: block; font: 12px/1.65 "Outfit", sans-serif; overflow-wrap: anywhere; color: var(--text); margin: 5px 0; }
+.entry-bottom { color: var(--muted); font-size: 10px; }
+.entry-actions { display: flex; gap: 4px; }
+.entry-actions .icon-button { width: 26px; height: 26px; padding: 5px; }
+.entry-actions .icon-button svg { width: 15px; height: 15px; }
+.entry-actions [data-delete-entry]:hover { color: var(--danger); }
+.entry-note { color: var(--muted); font-size: 11px; margin-top: 4px; overflow-wrap: anywhere; }
+.empty-state { text-align: center; color: var(--muted); padding: 40px 16px; font-size: 12px; }
+.empty-state strong { display: block; color: var(--text); font-size: 13px; margin-bottom: 6px; font-weight: 550; }
+.history-toolbar { display: flex; gap: 6px; padding: 12px 0 6px; flex: 0 0 auto; }
+.text-input { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 7px; background: #121822; color: var(--text); padding: 9px 10px; }
+.text-input::placeholder { color: #7f8da1; }
+.text-input[aria-invalid="true"] { border-color: #ac6370; }
+.history-toolbar .text-input { font-size: 12px; padding: 7px 10px; }
+#history-more { font-size: 19px; line-height: 1; }
+.history-actions { flex: 0 0 auto; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.history-actions .text-button, .upload-button { padding: 6px; font-size: 11px; }
+.upload-button { position: relative; overflow: hidden; cursor: pointer; }
+.upload-button input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+.history-footer { padding: 9px 0; flex: 0 0 auto; font-size: 10px; color: var(--muted); border-top: 1px solid var(--border); }
+.history-footer .danger-button { padding-right: 0; font-size: 11px; }
+.manual-entry-form { flex: 0 0 auto; padding: 10px; margin-top: 7px; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; }
+.manual-entry-form { max-height: 200px; overflow-y: auto; }
+.manual-entry-form .field, .manual-entry-form .field-grid { margin-bottom: 7px; }
+.manual-entry-form .text-input { padding: 6px 8px; font-size: 12px; }
+/* Native modal dialog traps focus and blocks background interaction. */
+.confirmation { position: fixed; inset: 0; margin: auto; width: calc(100% - 48px); max-width: 360px; max-height: calc(100% - 48px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--text); font-size: 12px; box-shadow: 0 20px 60px #0009; }
+.confirmation::backdrop { background: #050a12b3; backdrop-filter: blur(3px); }
+.confirmation p { margin-top: 12px; color: var(--muted); }
+.confirmation .action-row { margin-top: 20px; }
+.action-row { display: flex; justify-content: flex-end; gap: 6px; margin-top: 6px; }
+.view-heading { padding-bottom: 14px; flex: 0 0 auto; }
+.view-heading p { color: var(--muted); font-size: 10px; margin-top: 3px; }
+.settings-tabs { justify-content: space-between; gap: 8px; }
+.settings-panel.is-active { display: block; }
+.settings-panel { padding: 14px 4px 18px 0; }
+.settings-subheading { margin: 20px 0 12px; padding-top: 15px; border-top: 1px solid var(--border); }
+.settings-subheading h3 { font-size: 12px; font-weight: 600; }
+.settings-subheading p { color: var(--muted); font-size: 11px; margin-top: 3px; }
+.field { display: grid; gap: 6px; font-size: 12px; margin-bottom: 10px; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; margin-top: 12px; }
+.field-hint, .local-note { color: var(--muted); font-size: 11px; margin: 0 0 16px; overflow-wrap: anywhere; }
+.local-note { padding-top: 16px; }
+.license-card { padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); color: var(--muted); font-size: 11px; }
+.license-card h3 { color: var(--text); font-size: 12px; font-weight: 550; margin: 0 0 4px; }
+.license-card p { margin-top: 8px; overflow-wrap: anywhere; }
+.license-card .license-type { color: var(--brand-strong); margin-top: 0; font-size: 10px; }
+.license-link { color: var(--brand-strong); font-size: 11px; overflow-wrap: anywhere; }
+.license-card .license-link { display: block; margin-top: 6px; }
+.checkbox-card { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px solid #293240; cursor: pointer; }
+.checkbox-card input { width: 15px; height: 15px; margin: 2px 0 0; accent-color: var(--brand); flex: 0 0 auto; }
+.checkbox-card strong { font-size: 12px; font-weight: 550; }
+.checkbox-card small { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+.checkbox-card:has(input:disabled) { opacity: .45; }
+.area-input { resize: vertical; min-height: 100px; max-height: 220px; font: 11px/1.6 "Outfit", sans-serif; }
+.permission-warning { border: 1px solid #775346; background: #352820; padding: 10px; border-radius: 8px; margin-bottom: 14px; font-size: 12px; }
+.permission-warning p { margin-bottom: 8px; }
+.debug-tools { display: flex; justify-content: space-between; flex: 0 0 auto; padding: 12px 0; }
+.debug-output { flex: 1; font: 11px/1.6 "Outfit", sans-serif; margin: 0 0 14px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 419px) { html, body { width: 100vw; } .popup-shell { padding-inline: 12px; } }
+@media (prefers-reduced-motion: reduce) { button, .upload-button { transition: none; } }

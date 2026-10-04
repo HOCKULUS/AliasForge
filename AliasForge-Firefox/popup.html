@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliasForge</title>
+    <link rel="stylesheet" href="popup.css">
+    <script type="module" src="popup.js"></script>
+</head>
+<body>
+    <main class="popup-shell">
+        <header class="app-header">
+            <div class="brand"><img class="brand-icon" src="images/icon-64.png" width="28" height="28" alt=""><h1>AliasForge</h1></div>
+            <div class="header-actions">
+            <a class="icon-button github-link" href="https://github.com/HOCKULUS/AliasForge" target="_blank" rel="noreferrer" title="AliasForge on GitHub" aria-label="Open AliasForge repository on GitHub">
+                <!-- Unmodified asset from https://brand.github.com/foundations/logo -->
+                <img src="images/GitHub_Invertocat_White.svg" width="18" height="18" alt="">
+            </a>
+            <button id="toggle-settings" class="icon-button" type="button" title="Settings" aria-label="Open settings" aria-expanded="false" aria-controls="settings-view">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2.3-2 .9-2.1-.7-2 3.5L4 10.6v2.8l-1.7 1.6 2 3.5 2.1-.7 2 .9L9 21h4l.6-2.3 2-.9 2.1.7 2-3.5-1.7-1.6v-2.8L19.7 9l-2-3.5-2.1.7-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/></svg>
+            </button>
+            </div>
+        </header>
+        <section class="address-card" aria-label="Address for this website">
+            <div class="site-line"><span class="site-dot" aria-hidden="true"></span><p id="current-site-label">Detecting website …</p></div>
+            <label class="sr-only" for="current-email">Current email</label>
+            <div class="copy-row">
+                <input id="current-email" type="text" readonly placeholder="No address yet" spellcheck="false">
+                <button id="copy-current-email" class="icon-button" type="button" title="Copy email" aria-label="Copy email" disabled>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="12" height="14" rx="2"/><path d="M8 7V3h12v14h-4"/></svg>
+                </button>
+            </div>
+            <div class="address-footer"><span id="address-hint">Stored locally. Reusable.</span></div>
+        </section>
+        <p id="status-message" class="status-message" role="status" aria-live="polite" hidden></p>
+
+        <section id="main-view" class="view">
+            <nav class="tab-bar" aria-label="Addresses">
+                <button class="tab-button is-active" type="button" data-tab="site" aria-pressed="true">This website <span id="site-count" class="count">0</span></button>
+                <button class="tab-button" type="button" data-tab="history" aria-pressed="false">All <span id="history-count" class="count">0</span></button>
+                <button id="debug-tab" class="tab-button" type="button" data-tab="debug" aria-pressed="false" hidden>Debug</button>
+            </nav>
+            <section class="tab-panel is-active" data-panel="site">
+                <p class="section-hint">The active address is reused automatically.</p>
+                <div id="site-history-list" class="history-list scroll-area" aria-label="Addresses for this website" tabindex="0"></div>
+            </section>
+            <section class="tab-panel" data-panel="history" hidden>
+                <div class="history-toolbar">
+                    <label class="sr-only" for="history-search">Search history</label>
+                    <input id="history-search" class="text-input search-input" type="search" placeholder="Search website or email …">
+                    <button id="history-more" class="icon-button" type="button" aria-label="Manage history" title="Import, export and manual entries" aria-expanded="false" aria-controls="history-actions">···</button>
+                </div>
+                <div id="history-actions" class="history-actions" hidden>
+                    <button id="export-history" class="text-button" type="button">Export KeePassXC CSV</button>
+                    <label class="upload-button">Import CSV<input id="import-history" type="file" accept=".csv,text/csv"></label>
+                    <button id="show-manual-entry" class="text-button" type="button">Add entry</button>
+                </div>
+                <form id="manual-entry-form" class="manual-entry-form" hidden>
+                    <div class="field-grid">
+                        <label class="field"><span>Website</span><input id="manual-website" class="text-input" type="text" placeholder="example.com" required></label>
+                        <label class="field"><span>Email</span><input id="manual-email" class="text-input" type="email" placeholder="alias@domain.com" required></label>
+                    </div>
+                    <label class="field"><span>Note (optional)</span><input id="manual-notes" class="text-input" type="text"></label>
+                    <div class="action-row"><button id="cancel-manual-entry" class="text-button" type="button">Cancel</button><button class="primary-button" type="submit">Add</button></div>
+                </form>
+                <div id="history-list" class="history-list scroll-area" aria-label="All saved addresses" tabindex="0"></div>
+                <footer class="history-footer"><span id="history-summary">All saved addresses</span><button id="clear-history" class="danger-button" type="button" disabled>Delete all</button></footer>
+            </section>
+            <section class="tab-panel" data-panel="debug" hidden>
+                <div class="debug-tools"><button id="debug-run" class="secondary-button" type="button">Run diagnostics</button><button id="disable-debug" class="text-button" type="button">Disable debug</button></div>
+                <pre id="debug-output" class="debug-output scroll-area" tabindex="0">No diagnostics run yet.</pre>
+            </section>
+        </section>
+
+        <section id="settings-view" class="view" aria-label="Settings" hidden>
+            <div class="view-heading"><div><h2>Settings</h2><p>Changes are saved automatically.</p></div><button id="close-settings" class="text-button" type="button">Done</button></div>
+            <nav class="tab-bar settings-tabs" aria-label="Settings sections">
+                <button class="tab-button" type="button" data-tab="mail" aria-pressed="true">Mail</button>
+                <button class="tab-button" type="button" data-tab="automatic" aria-pressed="false">Components</button>
+                <button class="tab-button" type="button" data-tab="behavior" aria-pressed="false">Inline</button>
+                <button class="tab-button" type="button" data-tab="licenses" aria-pressed="false">Licenses</button>
+            </nav>
+            <section class="tab-panel settings-panel scroll-area" data-panel="mail" hidden>
+                <label class="field"><span>Your catch-all domain</span><input id="mail-domain" class="text-input" type="text" placeholder="e.g. my-domain.com" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="domain-hint"></label>
+                <p id="domain-hint" class="field-hint">Everything after @. Catch-all must be configured with your mail provider.</p>
+                <!-- Retain the removed setting for storage compatibility; generated addresses are always lowercase. -->
+                <input id="force-lowercase" type="checkbox" hidden aria-hidden="true" tabindex="-1">
+                <p class="local-note">Settings and history stay in your browser. Settings may also be backed up through browser sync.</p>
+            </section>
+            <section class="tab-panel settings-panel scroll-area" data-panel="automatic" hidden>
+                <label class="checkbox-card"><input id="include-url-part" type="checkbox"><span><strong>Website domain</strong><small>Without subdomain, limited to 20 characters.</small></span></label>
+                <label class="checkbox-card"><input id="include-url-suffix" type="checkbox"><span><strong>Include domain suffix</strong><small>For example <code>example.com</code> instead of only <code>example</code>.</small></span></label>
+                <label class="checkbox-card"><input id="include-date-part" type="checkbox"><span><strong>Date</strong><small>Adds the current date in ddMMyy format.</small></span></label>
+                <label class="checkbox-card"><input id="include-name-part" type="checkbox"><span><strong>Random name</strong><small>Uses a first and last name from your name list.</small></span></label>
+                <label class="checkbox-card"><input id="include-secure-string" type="checkbox"><span><strong>Random characters</strong><small>Adds extra letters and numbers.</small></span></label>
+                <div class="field-grid">
+                    <label class="field"><span>Prefix (optional)</span><input id="prefix" class="text-input" type="text" placeholder="e.g. work"></label>
+                    <label class="field"><span>Separator</span><input id="separator" class="text-input" type="text" maxlength="1" placeholder="-"></label>
+                    <label class="field"><span>Random character count</span><input id="random-string-length" class="text-input" type="number" min="1" max="64"></label>
+                    <label class="field"><span>Character set</span><input id="random-string-charset" class="text-input" type="text" spellcheck="false"></label>
+                </div>
+                <div class="settings-subheading"><h3>Names</h3><p>Optional first and last names for generated addresses.</p></div>
+                <label class="field"><span>Name list (JSON)</span><textarea id="names-json" class="text-input area-input" rows="8" spellcheck="false"></textarea></label>
+                <p class="field-hint">Format: <code>{"firstNames": ["Alex"], "lastNames": ["Taylor"]}</code>. Lists of full names are also supported.</p>
+                <p id="names-status" class="field-hint" aria-live="polite"></p>
+                <button id="reset-names" class="secondary-button" type="button">Restore default list</button>
+                <!-- Keep existing order values in the form model without exposing index controls. -->
+                <input id="order-prefix" type="hidden"><input id="order-name" type="hidden"><input id="order-url" type="hidden"><input id="order-date" type="hidden"><input id="order-random" type="hidden">
+            </section>
+            <section class="tab-panel settings-panel scroll-area" data-panel="behavior" hidden>
+                <label class="checkbox-card"><input id="show-inline-button" type="checkbox"><span><strong>Show inline button</strong><small>Insert the address with one click.</small></span></label>
+                <label class="checkbox-card"><input id="hide-inline-button-when-filled" type="checkbox"><span><strong>Hide button when field is filled</strong><small>Show the button only when the field is empty.</small></span></label>
+                <!-- Retain removed settings for storage migrations without exposing them. -->
+                <input id="autofill-enabled" type="checkbox" hidden aria-hidden="true" tabindex="-1">
+                <input id="only-fill-empty-fields" type="checkbox" hidden aria-hidden="true" tabindex="-1">
+            </section>
+            <section class="tab-panel settings-panel scroll-area" data-panel="licenses" hidden>
+                <div class="license-card">
+                    <h3>AliasForge</h3>
+                    <p class="license-type">GNU General Public License 3.0 or later (GPL-3.0-or-later)</p>
+                    <p>This application is released under a copyleft license because it’s 100% blindcoded by Codex :D</p>
+                    <a class="license-link" href="https://github.com/HOCKULUS/AliasForge" target="_blank" rel="noreferrer">AliasForge on GitHub</a>
+                </div>
+                <div class="license-card">
+                    <h3>KeePassXC / KeePassXC-Browser</h3>
+                    <p class="license-type">GNU General Public License 3.0 (GPL-3.0)</p>
+                    <p>KeePassXC-Browser served as a reference for website detection and settings storage. The CSV export follows the KeePassXC import format.</p>
+                    <a class="license-link" href="https://github.com/keepassxreboot/keepassxc-browser" target="_blank" rel="noreferrer">KeePassXC-Browser source and license</a>
+                    <a class="license-link" href="https://github.com/keepassxreboot/keepassxc" target="_blank" rel="noreferrer">KeePassXC source and license</a>
+                </div>
+                <div class="license-card">
+                    <h3>Public Suffix List</h3>
+                    <p class="license-type">Mozilla Public License 2.0 (MPL-2.0)</p>
+                    <p>The bundled domain rules are derived from the Public Suffix List and are included under its license.</p>
+                    <a class="license-link" href="https://github.com/publicsuffix/list" target="_blank" rel="noreferrer">Public Suffix List source and license</a>
+                </div>
+                <div class="license-card">
+                    <h3>Outfit font</h3>
+                    <p class="license-type">SIL Open Font License 1.1 (OFL-1.1)</p>
+                    <p>AliasForge uses the bundled Outfit variable font as its default interface font. Copyright 2021 The Outfit Project Authors.</p>
+                    <a class="license-link" href="https://github.com/Outfitio/Outfit-Fonts" target="_blank" rel="noreferrer">Outfit source and license</a>
+                </div>
+            </section>
+        </section>
+    </main>
+    <dialog id="clear-confirmation" class="confirmation" aria-labelledby="clear-confirmation-title" aria-describedby="clear-confirmation-description">
+        <h2 id="clear-confirmation-title">Delete all addresses?</h2>
+        <p id="clear-confirmation-description">Delete all addresses from history? This cannot be undone.</p>
+        <div class="action-row"><button id="cancel-clear-history" class="text-button" type="button" autofocus>Cancel</button><button id="confirm-clear-history" class="danger-button" type="button">Delete permanently</button></div>
+    </dialog>
+</body>
+</html>
